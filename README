@@ -1,0 +1,35 @@
+/*
+* =========================================
+* JDAP - Javascript Directroy Access Portal
+* =========================================
+* copyright sphaero.org
+* This program is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public License
+* as published by the Free Software Foundation; either version 2
+* of the License, or any later version.
+*
+* All copyright notices regarding JDAP
+* MUST remain intact in the scripts and in the outputted HTML
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*
+*/
+
+JDAP is a very minimal portal for users to update their information in
+an LDAP based identity system. (ie. OpenLDAP). The frontend consists of 
+a simple HTML and Javascript which talks through JSON with an PHP backend 
+which in turn talks to the LDAP server.
+
+= Setting up the frontend =
+Setup the jdapMarkup array
+TODO
+= Setting up the backend =
+create config.php
+TODO

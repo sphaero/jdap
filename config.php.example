@@ -1,0 +1,15 @@
+$jdapData['host'] = 'ldap.somedomain.com';
+$jdapData['port'] = NULL;
+$jdapData['basedn'] = 'o=org';
+$jdapData['password_attribute'] = 'userPassword';
+$jdapData['password_encryption'] = 'clear';
+$jdapData['sambapasswords'] = true;
+
+$jdapMsg['connectFailed'] = "Kan geen verbinding maken met server";
+$jdapMsg['login'] = "U bent ingelogd";
+$jdapMsg['failedLogin'] = "Inloggen mislukt";
+$jdapMsg['failedPw'] = "Uw nieuwe wachtwoord is niet geaccepteerd, probeer een ander wachtwoord";
+$jdapMsg['failedCred'] = "Huidig wachtwoord of gebruikersnaam is incorrect";
+$jdapMsg['failedModify'] = "De aanpassingen is niet geaccepteerd. Probeer nogmaals";
+$jdapMsg['success'] = "Succesvol uitgevoerd";
+$jdapMsg['failed'] = "Er is iets misgegaan, probeer het opnieuw";

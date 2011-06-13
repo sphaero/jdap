@@ -1,0 +1,31 @@
+.jdapResult {
+	font-size: 100%;
+	background: rgb(221, 237, 204);
+	border-style:solid;
+	border-width:1px;
+	border-color: rgb(125, 190, 54);
+	padding: 4px 10px 4px 10px;
+}
+
+.jdapResult input {
+	background: #fff;
+	border-width:1px;
+	border-color: rgb(125, 190, 54);
+} 
+
+.jdapHead {
+	color: black;
+	font-weight:bold;
+	background-color: #7DBE36;
+	padding: 4px 10px 4px 10px;
+	cursor: pointer;
+}
+.jdapStatus {
+	color: white;
+	font-family: Monospace;
+	background-color: rgb(12, 0, 0);
+	border-style:solid;
+	border-width:1px;
+	border-color: rgb(125, 190, 54);
+	padding: 4px 10px 4px 10px;
+}

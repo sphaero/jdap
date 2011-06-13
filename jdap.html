@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv='cache-control' content='no-cache'>
+<meta http-equiv='expires' content='0'>
+<meta http-equiv='pragma' content='no-cache'>
+<title>Paspoort Self Service</title>
+<style type="text/css">
+@import "jdap.css";
+</style>
+<script type="text/javascript" src="jquery-1.6.1.min.js"></script>
+<script type="text/javascript" src="jdap.js"></script>
+<script type="text/javascript">
+
+//This a match pattern of Markup items not to consider for LDAP attributes
+noLdapPattern = /(Login|LogOut|UpdatePassword)/;
+
+var jdapMarkUp = new Array();
+//LogIn is essential
+jdapMarkUp.Login = { 
+    "Username" : "text",  
+    "Password" : "password", 
+    "func_jdapLogIn" : "Log in"
+};
+jdapMarkUp.Personal = { 
+    "Username" : "cn",  
+    "Fullname" : "fullName"
+};
+jdapMarkUp.Contact = {
+    "Contactnumber" : "mobile",
+    "Emailaddress" : "mail"
+};
+//UpdatePassword is essential
+jdapMarkUp.UpdatePassword = {
+    "New Password" : "password",
+    "New Password Again" : "password",
+    "func_jdapUpdatePw" : "Change Password"
+};
+//LogOut is essential
+jdapMarkUp.LogOut = {
+    "func_jdapLogOut" : "Click to log out"
+};
+
+$(document).ready(function(){
+
+    jdapGui();
+    jdapGuiControls();
+    jdapGuiButtons();
+    jdapHideGui();
+});
+
+</script>
+</head>
+<body>
+<div id='jdapApp' style="width:200px;margin:20px">
+</div>
+</body>
+</html>
