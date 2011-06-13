@@ -1,5 +1,5 @@
 <?php
-require "config.php";
+include "config.php";
 include "class.jdap.php";
 
 //Is this safe?
