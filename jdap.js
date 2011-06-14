@@ -34,6 +34,7 @@ function jdapRunFunction(functionName /*, args*/) {
 function jdapLogIn(button) {
     msg = jdapGetUserPw();
     //we are also requesting all attributes immediatelly
+    msg['jdapLogIn'] = "";
     msg['jdapAttributes'] = jdapGetAllLdapAttributes();
     jdapPostData(msg, jdapDecodeLoginResult);
 }
@@ -100,7 +101,7 @@ function jdapUpdatePassword(button) {
     });
     if(jdapValidatePasswd(pwds[0], pwds[1])) {
         msg['newPw'] = pwds[0];
-        msg['jdapUpdatePw'] = "";
+        msg['jdapUpdatePassword'] = "";
         jdapPostData(msg, jdapDecodeResult);
     }
     else {

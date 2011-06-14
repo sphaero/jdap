@@ -9,8 +9,8 @@ class jdap {
     * [usermsf] : a user friendly feedback message
     */
 
-    public $config = Array();
-    public $msg = Array();
+    private $config = Array();
+    private $msg = Array();
 
     function __construct($configarr, $msgarr) {
         $this->config = $configarr;
@@ -148,11 +148,11 @@ class jdap {
             $modattr['sambaPwdLastSet'] = $newData['sambaPwdCanChange'] = time();
             $modattr['sambaPwdMustChange'] = '2147483647';
         }
-        $modattr["userPassword"] = encryptPassword($passwd);
-        return modifyAttributes($ldapcn, $udn, $modattr);
+        $modattr["userPassword"] = $this->encryptPassword($passwd);
+        return $this->modifyAttributes($ldapcn, $udn, $modattr);
     }
     
-    static function encryptPassword($password) {
+    function encryptPassword($password) {
         /*
         * funcions to encrypt the password for ldap
         * based on code from egroupware.org
