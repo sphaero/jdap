@@ -1,4 +1,20 @@
 loggedIn = false;
+var jdapMarkUp = new Array();
+//LogIn is essential
+jdapMarkUp.Login = { 
+    "Username" : "text",  
+    "Password" : "password", 
+    "func_jdapLogIn" : "Log in"
+};
+jdapMarkUp.UpdatePassword = {
+    "New Password" : "password",
+    "New Password Again" : "password",
+    "func_jdapUpdatePassword" : "Change Password"
+};
+//LogOut is essential
+jdapMarkUp.LogOut = {
+    "func_jdapLogOut" : "Click to log out"
+};
 
 function jdapGetFuncName(func_string) {
     return func_string.slice(5);
@@ -16,12 +32,22 @@ function jdapRunFunction(functionName /*, args*/) {
 }
 
 function jdapLogIn(button) {
-    container = $(button).parent();
-    msg = {};
-    container.children().filter(":input").each(function(index) {
-        msg[$(this).attr('id')] = $(this).val();
-    });
+    msg = jdapGetUserPw();
     //we are also requesting all attributes immediatelly
+    msg['jdapAttributes'] = jdapGetAllLdapAttributes();
+    jdapPostData(msg, jdapDecodeLoginResult);
+}
+
+function jdapGetUserPw() {
+    //get username + password
+    msg = {};
+    msg['Username'] = $('#Username').val();
+    msg['Password'] = $('#Password').val();
+    return msg
+}
+
+function jdapGetAllLdapAttributes() {
+   //iterate on all values not matched with noLdapPattern
     ldapAttributes = [];
     for (var object in jdapMarkUp) {
         //Find only ldap relevant markup parts
@@ -31,10 +57,8 @@ function jdapLogIn(button) {
             }
         }
     }
-    msg['jdapAttributes'] = ldapAttributes;
-    jdapPostData(msg, jdapDecodeLoginResult);
+    return ldapAttributes;
 }
-
 function jdapLoggedIn() {
     /*
     * show rest of Gui slideDown login
@@ -66,17 +90,17 @@ function jdapLogOut(button) {
     $('#status').html("You are logged out");
 }
 
-function jdapUpdatePw(button) {
+function jdapUpdatePassword(button) {
     //get the username
-    var username = $('#Username').val();
-    var password = $('#Password').val();
+    msg = jdapGetUserPw();
     container = $(button).parent();
     pwds = new Array();
     container.children().filter(":password").each(function(index) {
         pwds.push($(this).val());
     });
     if(jdapValidatePasswd(pwds[0], pwds[1])) {
-        msg = { Username: username, Password: password, newPw: pwds[0], jdapUpdatePw: "" };
+        msg['newPw'] = pwds[0];
+        msg['jdapUpdatePw'] = "";
         jdapPostData(msg, jdapDecodeResult);
     }
     else {
@@ -110,7 +134,7 @@ function jdapSendFormDefault(button) {
     */
     //get parent div
     container = $(button).parent();
-    msg = {};
+    msg = jdapGetUserPw();
     //iterate on all input elements
     container.children().filter(":input").each(function(index) {
         msg[$(this).attr('id')] = $(this).val();
