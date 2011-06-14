@@ -3,6 +3,7 @@ $jdapData['port'] = NULL;
 $jdapData['basedn'] = 'o=org';
 $jdapData['password_attribute'] = 'userPassword';
 $jdapData['password_encryption'] = 'clear';
+//possible values are: des, blowfish_crypt, md5_crypt, ext_crypt, md5, smd5, sha, ssha
 $jdapData['sambapasswords'] = true;
 
 $jdapMsg['connectFailed'] = "Kan geen verbinding maken met server";

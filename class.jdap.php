@@ -140,16 +140,72 @@ class jdap {
             $modattr['sambaPwdLastSet'] = $newData['sambaPwdCanChange'] = time();
             $modattr['sambaPwdMustChange'] = '2147483647';
         }
-        switch ($this->config['password_encryption']) {
+        $modattr["userPassword"] = encryptPassword($passwd);
+        return modifyAttributes($ldapcn, $udn, $modattr);
+    }
+    
+    static function encryptPassword($password) {
+        /*
+        * funcions to encrypt the password for ldap
+        * based on code from egroupware.org
+        */
+        $type = strtolower($this->config['password_encryption']);
+        $salt = '';
+        switch($type) {
+            case 'des':
+                $salt       = self::randomstring(2);
+                $_password  = crypt($password, $salt);
+                $e_password = '{crypt}'.$_password;
+                break;
+            case 'blowfish_crypt':
+                if(@defined('CRYPT_BLOWFISH') && CRYPT_BLOWFISH == 1) {
+                    $salt = '$2$' . self::randomstring(13);
+                    $e_password = '{crypt}'.crypt($password,$salt);
+                     break;
+                }
+                self::$error = 'no blowfish crypt';
+                break;
+            case 'md5_crypt':
+                if(@defined('CRYPT_MD5') && CRYPT_MD5 == 1) {
+                    $salt = '$1$' . self::randomstring(9);
+                    $e_password = '{crypt}'.crypt($password,$salt);
+                    break;
+                }
+                self::$error = 'no md5 crypt';
+                break;
+            case 'ext_crypt':
+                if(@defined('CRYPT_EXT_DES') && CRYPT_EXT_DES == 1) {
+                    $salt = self::randomstring(9);
+                    $e_password = '{crypt}'.crypt($password,$salt);
+                      break;
+                }
+                self::$error = 'no ext crypt';
+                break;
             case 'md5':
-                $passwd = md5($passwd);
-            case 'sha1':
-                $passwd = sha1($passwd);
+                /* New method taken from the openldap-software list as recommended by
+                 * Kervin L. Pierre" <kervin@blueprint-tech.com>
+                 */
+                $e_password = '{md5}' . base64_encode(pack("H*",md5($password)));
+                break;
+            case 'smd5':
+                $salt = self::randomstring(8);
+                $hash = md5($password . $salt,true);
+                $e_password = '{SMD5}' . base64_encode($hash . $salt);
+                break;
+            case 'sha':
+                $e_password = '{SHA}' . base64_encode(sha1($password,true));
+                break;
+             case 'ssha':
+                $salt = self::randomstring(8);
+                $hash = sha1($password . $salt,true);
+                $e_password = '{SSHA}' . base64_encode($hash . $salt);
+                break;
             default:
+                // if plain no type is prepended
+                $e_password =$password;
                 break;
         }
-        $modattr["userPassword"] = $passwd;
-        return modifyAttributes($ldapcn, $udn, $modattr);
+        return $e_password;
     }
 }
 ?>
