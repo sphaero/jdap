@@ -24,6 +24,13 @@ class jdap {
     public function doRun() {
         $result = Array();
         
+	//if no user/pass is given there is no use to continue
+	if(!(array_key_exists("Username", $this->config) && array_key_exists("Password", $this->config))) {
+            $result["usermsg"] = $this->msg['failedLogin'];
+            $result["error"] = -1;
+            $result["errmsg"] = "No username or password given";
+            return $result;
+	}
         // connect to ldap server
         $ldapconn = ldap_connect($this->config['host'], $this->config['port']);
         //TODO fix this
