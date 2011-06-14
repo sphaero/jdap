@@ -104,11 +104,11 @@ class jdap {
         }
     }
 
-    private function findUser(&$ldapcn, $cn) {
+    private function findUser(&$ldapcn, $user) {
         /*
         * return DN of first user found 
         */
-	$filter = "(&(objectClass=person)(uid=".$cn."))";
+	$filter = "(&(objectClass=person)(".$this->config['user_attribute']."=".$user."))";
         $res = ldap_search($ldapcn, $this->config['basedn'], $filter, array("dn"));
         if (res) {
             $entryid = ldap_first_entry($ldapcn, $res);

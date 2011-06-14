@@ -1,6 +1,8 @@
+<?php
 $jdapData['host'] = 'ldap.somedomain.com';
 $jdapData['port'] = NULL;
 $jdapData['basedn'] = 'o=org';
+$jdapData['user_attribute'] = "uid";
 $jdapData['password_attribute'] = 'userPassword';
 $jdapData['password_encryption'] = 'clear';
 //possible values are: des, blowfish_crypt, md5_crypt, ext_crypt, md5, smd5, sha, ssha
@@ -15,3 +17,4 @@ $jdapMsg['failedModify'] = "De aanpassingen is niet geaccepteerd. Probeer nogmaa
 $jdapMsg['success'] = "Succesvol uitgevoerd";
 $jdapMsg['failed'] = "Er is iets misgegaan, probeer het opnieuw";
 $jdapMsg['nop'] = "Nothing to do";
+?>
