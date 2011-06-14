@@ -16,7 +16,7 @@ class jdap {
         $this->config = $configarr;
         $this->msg = $msgarr;
     }
-    
+   
     function __destruct() {
         unset($this->config);
     }
@@ -24,18 +24,17 @@ class jdap {
     public function doRun() {
         $result = Array();
         
-        //TODO fix this
-        $ldaprdn = findUser($ldapconn, $this->config["Username"]);
-        
         // connect to ldap server
         $ldapconn = ldap_connect($this->config['host'], $this->config['port']);
+        //TODO fix this
+        $ldaprdn = $this->findUser($ldapconn, $this->config["Username"]);
         if (ldap_errno($ldapconn) == 0) {
             //If ldap connection is succesful we start the action
-            if(array_key_exists("LogIn", $this->config)) {
-                if (logIn($ldapconn, $ldaprdn, $this->config['Password'])) {
+            if(array_key_exists("jdapLogIn", $this->config)) {
+                if ($this->logIn($ldapconn, $ldaprdn, $this->config['Password'])) {
                    //$result = getAttributes($ldapconn, $ldaprdn);
-                   if(array_key_exists("Attributes", $this->config)) {
-                       $result = getAttributes($ldapconn, $ldaprdn, $this->config['Attributes']);
+                   if(array_key_exists("jdapAttributes", $this->config)) {
+                       $result = $this->getAttributes($ldapconn, $ldaprdn, $this->config["jdapAttributes"]);
                    }
                    $result["usermsg"] = $this->msg['login'];
                 }
@@ -44,9 +43,9 @@ class jdap {
                 }
             }
             //Change password action
-            elseif(array_key_exists("updatePassword", $this->config)) {
-                if (logIn($ldapconn, $ldaprdn, $this->config['Password'])) {
-                    if (updatePassword($ldapconn, $ldaprdn, $this->config['newPw'])) {
+            elseif(array_key_exists("jdapUpdatePassword", $this->config)) {
+                if ($this->logIn($ldapconn, $ldaprdn, $this->config['Password'])) {
+                    if ($this->updatePassword($ldapconn, $ldaprdn, $this->config['newPw'])) {
                         $result["usermsg"] = $this->msg['failedPw'];
                     }
                 }
@@ -56,8 +55,8 @@ class jdap {
             }
             //Change attributes action
             elseif(array_key_exists("modifyAttributes", $this->config)) {
-                if (logIn($ldapconn, $ldaprdn, $this->config['Password'])) {
-                    if (modifyAttributes($ldapconn, $ldaprdn, $ldapconfigp["newAttr"])) {
+                if ($this->logIn($ldapconn, $ldaprdn, $this->config['Password'])) {
+                    if ($this->modifyAttributes($ldapconn, $ldaprdn, $ldapconfigp["newAttr"])) {
                         $result["usermsg"] = $this->msg['failedModify'];
                     }
                 }
@@ -95,18 +94,20 @@ class jdap {
         }
     }
 
-    private function findUser(&$ldapcn, $cn, $base) {
+    private function findUser(&$ldapcn, $cn) {
         /*
         * return DN of first user found 
         */
-        $res = ldap_search($ldapcn, $this->config['basedn'], "(objectClass=person)(cn=$cn)", array("dn"));
+	$filter = "(&(objectClass=person)(uid=".$cn."))";
+        $res = ldap_search($ldapcn, $this->config['basedn'], $filter, array("dn"));
         if (res) {
-            $entry = ldap_first_entry($ldapcn, $res);
-            return ldap_first_attribute($ldapcn, $entry);
+            $entryid = ldap_first_entry($ldapcn, $res);
+            return ldap_get_dn($ldapcn, $entryid);
         }
         else {
             return ldap_errno($ldapcn);
         }
+	$ldap_unbind($ldapcn);
     }
 
     private function getAttributes(&$ldapcn, $udn, $attr = array()) {

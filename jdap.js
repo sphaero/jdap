@@ -131,7 +131,7 @@ function jdapPostData(msg, callback) {
         out = out + item +" "+ msg[item]+"\n";
     }
     alert(out);
-    $.post("jdap.php", msg, callback, "json");
+    $.post("index.php", msg, callback, "json");
 }
 
 function jdapDecodeResult(result) {
