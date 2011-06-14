@@ -14,3 +14,4 @@ $jdapMsg['failedCred'] = "Huidig wachtwoord of gebruikersnaam is incorrect";
 $jdapMsg['failedModify'] = "De aanpassingen is niet geaccepteerd. Probeer nogmaals";
 $jdapMsg['success'] = "Succesvol uitgevoerd";
 $jdapMsg['failed'] = "Er is iets misgegaan, probeer het opnieuw";
+$jdapMsg['nop'] = "Nothing to do";

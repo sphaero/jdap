@@ -52,7 +52,7 @@ class jdap {
             //Change password action
             elseif(array_key_exists("jdapUpdatePassword", $this->config)) {
                 if ($this->logIn($ldapconn, $ldaprdn, $this->config['Password'])) {
-                    if ($this->updatePassword($ldapconn, $ldaprdn, $this->config['newPw'])) {
+                    if ($this->updatePassword($ldapconn, $ldaprdn, $this->config["jdapUpdatePassword"])) {
                         $result["usermsg"] = $this->msg['failedPw'];
                     }
                 }
@@ -61,15 +61,18 @@ class jdap {
                 }
             }
             //Change attributes action
-            elseif(array_key_exists("modifyAttributes", $this->config)) {
+            elseif(array_key_exists("jdapModifyAttributes", $this->config)) {
                 if ($this->logIn($ldapconn, $ldaprdn, $this->config['Password'])) {
-                    if ($this->modifyAttributes($ldapconn, $ldaprdn, $ldapconfigp["newAttr"])) {
+                    if ($this->modifyAttributes($ldapconn, $ldaprdn, $this->config["jdapModifyAttributes"])) {
                         $result["usermsg"] = $this->msg['failedModify'];
                     }
                 }
                 else {
                    $result["usermsg"] = $this->msg['failedCred'];
                 }
+            }
+            else {
+                $result["usermsg"] = $this->msg['nop'];
             }
         }
         else {

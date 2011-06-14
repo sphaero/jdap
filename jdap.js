@@ -44,6 +44,7 @@ function jdapGetAllLdapAttributes() {
     }
     return ldapAttributes;
 }
+
 function jdapLoggedIn() {
     /*
     * show rest of Gui slideDown login
@@ -84,13 +85,27 @@ function jdapUpdatePassword(button) {
         pwds.push($(this).val());
     });
     if(jdapValidatePasswd(pwds[0], pwds[1])) {
-        msg['newPw'] = pwds[0];
-        msg['jdapUpdatePassword'] = "";
+        msg['jdapUpdatePassword'] = pwds[0];
         jdapPostData(msg, jdapDecodeResult);
     }
     else {
         alert("Passwords do not match");
     }
+}
+
+function jdapModifyAttributes(button) {
+    //get the username etc
+    msg = jdapGetUserPw();
+    container = $(button).parent();
+    //get all input elements except buttons and create 
+    //an object of keys and values
+    var attrs = new Object();
+    container.children().filter(":input").not(":button").each(function(index) {
+	var keyname = $(this).attr('id');
+	attrs[keyname] = $(this).val();
+    });
+   msg['jdapModifyAttributes'] = attrs;
+    jdapPostData(msg, jdapDecodeResult);
 }
 
 function jdapValidatePasswd(pw1, pw2) {
