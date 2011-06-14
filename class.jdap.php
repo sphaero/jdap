@@ -143,8 +143,8 @@ class jdap {
         //Create Samba Hashes
         if ($this->config['sambapasswords']) {
             $smbHasher = new smbHash();
-            $modattr['sambaLMPassword'] = $smbHasher->lmhash($_newPassword);
-            $modattr['sambaNTPassword'] = $smbHasher->nthash($_newPassword);
+            $modattr['sambaLMPassword'] = $smbHasher->lmhash($passwd);
+            $modattr['sambaNTPassword'] = $smbHasher->nthash($passwd);
             $modattr['sambaPwdLastSet'] = $newData['sambaPwdCanChange'] = time();
             $modattr['sambaPwdMustChange'] = '2147483647';
         }

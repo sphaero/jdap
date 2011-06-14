@@ -1,20 +1,4 @@
 loggedIn = false;
-var jdapMarkUp = new Array();
-//LogIn is essential
-jdapMarkUp.Login = { 
-    "Username" : "text",  
-    "Password" : "password", 
-    "func_jdapLogIn" : "Log in"
-};
-jdapMarkUp.UpdatePassword = {
-    "New Password" : "password",
-    "New Password Again" : "password",
-    "func_jdapUpdatePassword" : "Change Password"
-};
-//LogOut is essential
-jdapMarkUp.LogOut = {
-    "func_jdapLogOut" : "Click to log out"
-};
 
 function jdapGetFuncName(func_string) {
     return func_string.slice(5);

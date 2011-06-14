@@ -16,6 +16,13 @@
 //This a match pattern of Markup items not to consider for LDAP attributes
 noLdapPattern = /(Login|LogOut|UpdatePassword)/;
 
+var jdapMarkUp = new Array();
+//LogIn is essential
+jdapMarkUp.Login = {
+    "Username" : "text",
+    "Password" : "password",
+    "func_jdapLogIn" : "Log in"
+};
 jdapMarkUp.Personal = { 
     "Username" : "uid",  
     "Fullname" : "givenName"
@@ -23,6 +30,16 @@ jdapMarkUp.Personal = {
 jdapMarkUp.Contact = {
     "Contactnumber" : "mobile",
     "Emailaddress" : "mail"
+};
+//UpdatePassword is essential
+jdapMarkUp.UpdatePassword = {
+    "New Password" : "password",
+    "New Password Again" : "password",
+    "func_jdapUpdatePassword" : "Change Password"
+};
+//LogOut is essential
+jdapMarkUp.LogOut = {
+    "func_jdapLogOut" : "Click to log out"
 };
 
 $(document).ready(function(){
