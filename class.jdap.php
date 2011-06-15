@@ -112,7 +112,12 @@ class jdap {
         $res = ldap_search($ldapcn, $this->config['basedn'], $filter, array("dn"));
         if (res) {
             $entryid = ldap_first_entry($ldapcn, $res);
-            return ldap_get_dn($ldapcn, $entryid);
+            if($entryid) {
+                return ldap_get_dn($ldapcn, $entryid);
+            }
+            else {
+                return ldap_errno($ldapcn);
+            }
         }
         else {
             return ldap_errno($ldapcn);
