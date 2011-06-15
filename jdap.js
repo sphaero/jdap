@@ -26,8 +26,8 @@ function jdapLogIn(button) {
 function jdapGetUserPw() {
     //get username + password
     msg = {};
-    msg['Username'] = jQuery('#Username').val();
-    msg['Password'] = jQuery('#Password').val();
+    msg['Username'] = jQuery('#jdapApp')('#Username').val();
+    msg['Password'] = jQuery('#jdapApp')('#Password').val();
     return msg
 }
 
@@ -50,10 +50,10 @@ function jdapLoggedIn() {
     * show rest of Gui slideDown login
     */ 
     if(!loggedIn) {
-        jQuery('div').filter('.jdapHead').filter(':first').slideUp(600);
-        jQuery('div').filter('.jdapHead').filter(':first').next().slideUp(600);
-        jQuery('div').filter('.jdapHead').not(':first').slideDown(600);
-        jQuery('div').filter('.jdapResult').eq(1).slideDown(600);
+        jQuery('#jdapApp')('div').filter('.jdapHead').filter(':first').slideUp(600);
+        jQuery('#jdapApp')('div').filter('.jdapHead').filter(':first').next().slideUp(600);
+        jQuery('#jdapApp')('div').filter('.jdapHead').not(':first').slideDown(600);
+        jQuery('#jdapApp')('div').filter('.jdapResult').eq(1).slideDown(600);
         loggedIn = true;
     }
 }
@@ -62,18 +62,18 @@ function jdapLogOut(button) {
     /*
     * clear all inputs and reset the form
     */ 
-    jQuery(':input:not(input[type=button])').each(function() {
+    jQuery('#jdapApp')(':input:not(input[type=button])').each(function() {
         jQuery(this).val("");
     });
     //slide all results up except the first which is the login
-    jQuery('div').filter('.jdapHead').not(':first').next().slideUp(600);
+    jQuery('#jdapApp')('div').filter('.jdapHead').not(':first').next().slideUp(600);
     //same for the headings
-    jQuery('div').filter('.jdapHead').not(':first').slideUp(600);
+    jQuery('#jdapApp')('div').filter('.jdapHead').not(':first').slideUp(600);
     //make sure the first is visible
-    jQuery('div').filter('.jdapHead').filter(':first').slideDown(600);
-    jQuery('div').filter('.jdapHead').filter(':first').next().slideDown(600);
+    jQuery('#jdapApp')('div').filter('.jdapHead').filter(':first').slideDown(600);
+    jQuery('#jdapApp')('div').filter('.jdapHead').filter(':first').next().slideDown(600);
     loggedIn = false;
-    jQuery('#status').html("You are logged out");
+    jQuery('#jdapApp')('#status').html("You are logged out");
 }
 
 function jdapUpdatePassword(button) {
@@ -121,11 +121,11 @@ function jdapHideGui() {
     /*
     * hide everything but the login
     */ 
-    jQuery(':input:not(input[type=button])').each(function() {
+    jQuery('#jdapApp')(':input:not(input[type=button])').each(function() {
         jQuery(this).val("");
     });
-    jQuery('div').filter('.jdapHead').not(':first').next().hide();
-    jQuery('div').filter('.jdapHead').not(':first').hide();
+    jQuery('#jdapApp')('div').filter('.jdapHead').not(':first').next().hide();
+    jQuery('#jdapApp')('div').filter('.jdapHead').not(':first').hide();
 }
 
 function jdapSendFormDefault(button) {
@@ -173,23 +173,23 @@ function jdapDecodeResult(result) {
             attr_count = result[result[i]]["count"];
             for(j = 0;j < attr_count; j++) {
             	res = res + "<input type='text' id=\"" + result[i] + "\" value=\"" + result[result[i]][j] + "\"><br />";
-                jQuery('#'+result[i]).val(result[result[i]][j]);
+                jQuery('#jdapApp')('#'+result[i]).val(result[result[i]][j]);
             }
         }
         
     }
-    jQuery('#status').html(result["usermsg"]);
+    jQuery('#jdapApp')('#status').html(result["usermsg"]);
 }
 
 function jdapGuiControls() {
-    jQuery('div').filter('.jdapHead').click(jdapGuiSlide);
+    jQuery('#jdapApp')('div').filter('.jdapHead').click(jdapGuiSlide);
 }
 
 function jdapGuiButtons() {
     /*
     * Set click actions on buttons
     */
-    jQuery(":button").each(function() {
+    jQuery('#jdapApp')(":button").each(function() {
             jQuery(this).click( function(event) { 
                 jdapRunFunction(jQuery(this).attr('id'), event.target);
             });
@@ -199,8 +199,8 @@ function jdapGuiButtons() {
 
 function jdapGuiSlide() {
     //Didn't expect this to work but it does... :)
-    jQuery('div').filter('.jdapHead').next().slideUp(600);
-    jQuery(this).next().slideDown();
+    jQuery('#jdapApp')('div').filter('.jdapHead').next().slideUp(600);
+    jQuery('#jdapApp')(this).next().slideDown();
 }
 
 function jdapGui() {
