@@ -26,8 +26,8 @@ function jdapLogIn(button) {
 function jdapGetUserPw() {
     //get username + password
     msg = {};
-    msg['Username'] = $('#Username').val();
-    msg['Password'] = $('#Password').val();
+    msg['Username'] = jQuery('#Username').val();
+    msg['Password'] = jQuery('#Password').val();
     return msg
 }
 
@@ -50,10 +50,10 @@ function jdapLoggedIn() {
     * show rest of Gui slideDown login
     */ 
     if(!loggedIn) {
-        $('div').filter('.jdapHead').filter(':first').slideUp(600);
-        $('div').filter('.jdapHead').filter(':first').next().slideUp(600);
-        $('div').filter('.jdapHead').not(':first').slideDown(600);
-        $('div').filter('.jdapResult').eq(1).slideDown(600);
+        jQuery('div').filter('.jdapHead').filter(':first').slideUp(600);
+        jQuery('div').filter('.jdapHead').filter(':first').next().slideUp(600);
+        jQuery('div').filter('.jdapHead').not(':first').slideDown(600);
+        jQuery('div').filter('.jdapResult').eq(1).slideDown(600);
         loggedIn = true;
     }
 }
@@ -62,27 +62,27 @@ function jdapLogOut(button) {
     /*
     * clear all inputs and reset the form
     */ 
-    $(':input:not(input[type=button])').each(function() {
-        $(this).val("");
+    jQuery(':input:not(input[type=button])').each(function() {
+        jQuery(this).val("");
     });
     //slide all results up except the first which is the login
-    $('div').filter('.jdapHead').not(':first').next().slideUp(600);
+    jQuery('div').filter('.jdapHead').not(':first').next().slideUp(600);
     //same for the headings
-    $('div').filter('.jdapHead').not(':first').slideUp(600);
+    jQuery('div').filter('.jdapHead').not(':first').slideUp(600);
     //make sure the first is visible
-    $('div').filter('.jdapHead').filter(':first').slideDown(600);
-    $('div').filter('.jdapHead').filter(':first').next().slideDown(600);
+    jQuery('div').filter('.jdapHead').filter(':first').slideDown(600);
+    jQuery('div').filter('.jdapHead').filter(':first').next().slideDown(600);
     loggedIn = false;
-    $('#status').html("You are logged out");
+    jQuery('#status').html("You are logged out");
 }
 
 function jdapUpdatePassword(button) {
     //get the username
     msg = jdapGetUserPw();
-    container = $(button).parent();
+    container = jQuery(button).parent();
     pwds = new Array();
     container.children().filter(":password").each(function(index) {
-        pwds.push($(this).val());
+        pwds.push(jQuery(this).val());
     });
     if(jdapValidatePasswd(pwds[0], pwds[1])) {
         msg['jdapUpdatePassword'] = pwds[0];
@@ -96,13 +96,13 @@ function jdapUpdatePassword(button) {
 function jdapModifyAttributes(button) {
     //get the username etc
     msg = jdapGetUserPw();
-    container = $(button).parent();
+    container = jQuery(button).parent();
     //get all input elements except buttons and create 
     //an object of keys and values
     var attrs = new Object();
     container.children().filter(":input").not(":button").each(function(index) {
-	var keyname = $(this).attr('id');
-	attrs[keyname] = $(this).val();
+	var keyname = jQuery(this).attr('id');
+	attrs[keyname] = jQuery(this).val();
     });
    msg['jdapModifyAttributes'] = attrs;
     jdapPostData(msg, jdapDecodeResult);
@@ -112,7 +112,7 @@ function jdapValidatePasswd(pw1, pw2) {
     if ( pw1 === pw2 ) { 
         return true;
     } else {
-        //$('#status').html("wachtwoorden komen niet overeen!");
+        //jQuery('#status').html("wachtwoorden komen niet overeen!");
         return false;
     }
 }
@@ -121,11 +121,11 @@ function jdapHideGui() {
     /*
     * hide everything but the login
     */ 
-    $(':input:not(input[type=button])').each(function() {
-        $(this).val("");
+    jQuery(':input:not(input[type=button])').each(function() {
+        jQuery(this).val("");
     });
-    $('div').filter('.jdapHead').not(':first').next().hide();
-    $('div').filter('.jdapHead').not(':first').hide();
+    jQuery('div').filter('.jdapHead').not(':first').next().hide();
+    jQuery('div').filter('.jdapHead').not(':first').hide();
 }
 
 function jdapSendFormDefault(button) {
@@ -133,11 +133,11 @@ function jdapSendFormDefault(button) {
     * General function for buttons
     */
     //get parent div
-    container = $(button).parent();
+    container = jQuery(button).parent();
     msg = jdapGetUserPw();
     //iterate on all input elements
     container.children().filter(":input").each(function(index) {
-        msg[$(this).attr('id')] = $(this).val();
+        msg[jQuery(this).attr('id')] = jQuery(this).val();
     });
     jdapPostData(msg, jdapDecodeResult);
 }
@@ -155,7 +155,7 @@ function jdapPostData(msg, callback) {
         out = out + item +" "+ msg[item]+"\n";
     }
     alert(out);
-    $.post("index.php", msg, callback, "json");
+    jQuery.post("index.php", msg, callback, "json");
 }
 
 function jdapDecodeResult(result) {
@@ -173,25 +173,25 @@ function jdapDecodeResult(result) {
             attr_count = result[result[i]]["count"];
             for(j = 0;j < attr_count; j++) {
             	res = res + "<input type='text' id=\"" + result[i] + "\" value=\"" + result[result[i]][j] + "\"><br />";
-                $('#'+result[i]).val(result[result[i]][j]);
+                jQuery('#'+result[i]).val(result[result[i]][j]);
             }
         }
         
     }
-    $('#status').html(result["usermsg"]);
+    jQuery('#status').html(result["usermsg"]);
 }
 
 function jdapGuiControls() {
-    $('div').filter('.jdapHead').click(jdapGuiSlide);
+    jQuery('div').filter('.jdapHead').click(jdapGuiSlide);
 }
 
 function jdapGuiButtons() {
     /*
     * Set click actions on buttons
     */
-    $(":button").each(function() {
-            $(this).click( function(event) { 
-                jdapRunFunction($(this).attr('id'), event.target);
+    jQuery(":button").each(function() {
+            jQuery(this).click( function(event) { 
+                jdapRunFunction(jQuery(this).attr('id'), event.target);
             });
         }
     )
@@ -199,8 +199,8 @@ function jdapGuiButtons() {
 
 function jdapGuiSlide() {
     //Didn't expect this to work but it does... :)
-    $('div').filter('.jdapHead').next().slideUp(600);
-    $(this).next().slideDown();
+    jQuery('div').filter('.jdapHead').next().slideUp(600);
+    jQuery(this).next().slideDown();
 }
 
 function jdapGui() {
@@ -238,5 +238,5 @@ function jdapGui() {
         res = res + "</div>";
     }
     res = res + "<div id='status' class='jdapStatus'></div>";
-    $('#jdapApp').html(res);
+    jQuery('#jdapApp').html(res);
 }
