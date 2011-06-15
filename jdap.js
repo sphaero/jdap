@@ -6,8 +6,6 @@ function jdapGetFuncName(func_string) {
 
 function jdapRunFunction(functionName /*, args*/) {
     var args = Array.prototype.slice.call(arguments).splice(1);
-    //alert("run func "+ window[functionName] + " " + functionName + " " + args);
-    //alert(functionName);
     if (typeof window[functionName] === 'undefined') {
         return jdapSendFormDefault(args);
     } else {
@@ -154,7 +152,7 @@ function jdapPostData(msg, callback) {
     for(item in msg) {
         out = out + item +" "+ msg[item]+"\n";
     }
-    alert(out);
+    //alert(out);
     jQuery.post("index.php", msg, callback, "json");
 }
 
