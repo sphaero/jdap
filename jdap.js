@@ -1,4 +1,5 @@
 loggedIn = false;
+postUrl = "index.php";
 
 function jdapGetFuncName(func_string) {
     return func_string.slice(5);
@@ -83,8 +84,12 @@ function jdapUpdatePassword(button) {
         pwds.push(jQuery(this).val());
     });
     if(jdapValidatePasswd(pwds[0], pwds[1])) {
-        msg['jdapUpdatePassword'] = pwds[0];
-        jdapPostData(msg, jdapDecodeResult);
+        if (jdapGetPasswordStrength(pw1) <7) {
+            alert("Password is not strong enough. Try a more complicated password");
+        } else {
+            msg['jdapUpdatePassword'] = pwds[0];
+            jdapPostData(msg, jdapDecodeResult);
+        }
     }
     else {
         alert("Passwords do not match");
@@ -107,12 +112,45 @@ function jdapModifyAttributes(button) {
 }
 
 function jdapValidatePasswd(pw1, pw2) {
-    if ( pw1 === pw2 ) { 
+    if ( pw1 === pw2  ) { 
         return true;
     } else {
         //jQuery('#status').html("wachtwoorden komen niet overeen!");
         return false;
     }
+}
+
+function jdapGetPasswordStrength(PWD){
+        var LENGTHSCORE=(PWD.length);
+
+        // Added below to make all passwords less than 4 characters show as weak
+        // LENGTHSCORE MAX = 5
+        if (LENGTHSCORE<4) { LENGTHSCORE=0}
+        if (LENGTHSCORE>5) { LENGTHSCORE=5}
+        
+        //test for numeric characters
+        // NUMSCORE MAX = 3
+        var ALPHAS=PWD.replace(/[0-9]/g,"");
+        var NUMSCORE=(PWD.length-ALPHAS.length);
+        if(NUMSCORE>3){NUMSCORE=3}
+        
+        //Test for punctuation characters
+        //PUNCTSCORE MAX = 3
+        var ALPHANUM=PWD.replace(/\W/g,"");
+        var PUNCTSCORE=(PWD.length-ALPHANUM.length);
+        if(PUNCTSCORE>3){PUNCTSCORE=3}
+        
+        //Test for uppercase characters
+        //UPPERSCORE MAX = 3
+        var LOWER=PWD.replace(/[A-Z]/g,"");
+        var UPPERSCORE=(PWD.length-LOWER.length);
+        if(UPPERSCORE>3){UPPERSCORE=3}
+        
+        //TOTALSCORE MAX = 14
+        var TOTALSCORE=LENGTHSCORE + NUMSCORE + PUNCTSCORE + UPPERSCORE;
+        if(TOTALSCORE<0){TOTALSCORE=0}
+        if(TOTALSCORE>14){TOTALSCORE=14}
+        return TOTALSCORE
 }
 
 function jdapHideGui() {
@@ -153,7 +191,7 @@ function jdapPostData(msg, callback) {
         out = out + item +" "+ msg[item]+"\n";
     }
     //alert(out);
-    jQuery.post("index.php", msg, callback, "json");
+    jQuery.post(postUrl, msg, callback, "json");
 }
 
 function jdapDecodeResult(result) {
@@ -206,7 +244,6 @@ function jdapGui() {
     * create form from the associative array
     */
     res = "";
-    func_pattern = /func_/;
     for (var object in jdapMarkUp) {
         //get optional title and description
         if (jdapMarkUp[object]["_Title"] == undefined) {
@@ -249,5 +286,9 @@ function jdapGui() {
         res = res + "</div>";
     }
     res = res + "<div id='status' class='jdapStatus'></div>";
+    //Set PostUrl
+    if (jdapMarkUp.Login._PostUrl != undefined) {
+        postUrl = jdapMarkUp.Login._PostUrl;
+    }
     jQuery('#jdapApp').html(res);
 }
