@@ -87,7 +87,7 @@ function jdapUpdatePassword(button) {
         pwds.push(jQuery(this).val());
     });
     if((pwds[0] != "") || (pwds[0] != "") || (jdapValidatePasswd(pwds[0], pwds[1]))) {
-        if (jdapGetPasswordStrength(pw1) <7) {
+        if (jdapGetPasswordStrength(pwds[0]) <7) {
             jQuery('#jdapApp #status').html(weakPwMsg);
         } else {
             msg['jdapUpdatePassword'] = pwds[0];
