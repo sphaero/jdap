@@ -1,8 +1,9 @@
 //Defaults
 loggedIn = false;
 postUrl = "index.php";
-weakPw = "Password is not strong enough. Try a more complicated password";
-noPwMatch = "Passwords do not match or none entered";
+weakPwMsg = "Password is not strong enough. Try a more complicated password";
+noPwMatchMsg = "Passwords do not match or none entered";
+logOutMsg = "You are logged out";
 
 function jdapGetFuncName(func_string) {
     return func_string.slice(5);
@@ -86,7 +87,7 @@ function jdapUpdatePassword(button) {
     container.children().filter(":password").each(function(index) {
         pwds.push(jQuery(this).val());
     });
-    if((pwds[0] != "") || (pwds[0] != "") || (jdapValidatePasswd(pwds[0], pwds[1]))) {
+    if((pwds[0] != "") && (pwds[1] != "") && (jdapValidatePasswd(pwds[0], pwds[1]))) {
         if (jdapGetPasswordStrength(pwds[0]) <7) {
             jQuery('#jdapApp #status').html(weakPwMsg);
         } else {
@@ -95,7 +96,7 @@ function jdapUpdatePassword(button) {
         }
     }
     else {
-        jQuery('#jdapApp #status').html(noPwMatch);
+        jQuery('#jdapApp #status').html(noPwMatchMsg);
     }
 }
 
@@ -297,8 +298,12 @@ function jdapGui() {
      if (jdapMarkUp.UpdatePassword._WeakPwMsg != undefined) {
         weakPwMsg = jdapMarkUp.UpdatePassword._WeakPwMsg;
     }
-     if (jdapMarkUp.UpdatePassword._NoPwMatch != undefined) {
-        noPwMatch = jdapMarkUp.UpdatePassword._NoPwMatch;
+     if (jdapMarkUp.UpdatePassword._NoPwMatchMsg != undefined) {
+        noPwMatchMsg = jdapMarkUp.UpdatePassword._NoPwMatchMsg;
+    }
+    //Set logout msg
+    if (jdapMarkUp.LogOut._LogOutMsg != undefined) {
+        logOutMsg = jdapMarkUp.LogOut._LogOutMsg;
     }
     jQuery('#jdapApp').html(res);
 }
