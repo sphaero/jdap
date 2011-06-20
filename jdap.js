@@ -208,28 +208,41 @@ function jdapGui() {
     res = "";
     func_pattern = /func_/;
     for (var object in jdapMarkUp) {
-        res = res + "<div class=jdapHead id=" + object + ">" + object + "</div>";
+        //get optional title and description
+        if (jdapMarkUp[object]["_Title"] == undefined) {
+            res = res + "<div class=jdapHead id=" + object + ">" + object + "</div>";
+        } else {
+             res = res + "<div class=jdapHead id=" + object + ">" + jdapMarkUp[object]["_Title"] + "</div>";
+        }
         res = res + "<div class=jdapResult id=" + object + ">";
+        if (jdapMarkUp[object]["_Description"] != undefined) {
+             res = res + "<div class='jdapDescription'>"+ jdapMarkUp[object]["_Description"] + "</div>";
+        }
+        
+        //iterate on all items in the markup object
         for (var item in jdapMarkUp[object]) {
             //try to match the item to predefined strings patterns
-            if (item.match(/func_/i) != null) {
-                //it seems we found a function
-                res = res + "<input type='button' id='" +  jdapGetFuncName(item) + "' value='"+ jdapMarkUp[object][item] +"'><br /> ";
-            } else {
-                switch(jdapMarkUp[object][item]) {
-                    //do specifics on input element types otherwise set different ID (probably ldap attr ID)
-                    case ("password"):
-                        res = res + item + "<br /><input type='password' id='" + item + "'> <br /> ";
-                        break
-                    case ("button"):
-                        res = res + item + "<br /><input type='button' id='" + item + "'> <br /> ";
-                        break
-                    case ("text"):
-                        res = res + item + "<br /><input type='text' id='" + item + "'> <br /> ";
-                        break
-                    default:
-                        res = res + item + "<br /><input type='text' id='" + jdapMarkUp[object][item] + "'> <br /> ";
-                        break
+            //items starting with an underscore are ignored
+            if (item.match(/^_/i) == null) {
+                if (item.match(/func_/i) != null) {
+                    //it seems we found a function
+                    res = res + "<input type='button' id='" +  jdapGetFuncName(item) + "' value='"+ jdapMarkUp[object][item] +"'><br /> ";
+                } else {
+                    switch(jdapMarkUp[object][item]) {
+                        //do specifics on input element types otherwise set different ID (probably ldap attr ID)
+                        case ("password"):
+                            res = res + item + "<br /><input type='password' id='" + item + "'> <br /> ";
+                            break
+                        case ("button"):
+                            res = res + item + "<br /><input type='button' id='" + item + "'> <br /> ";
+                            break
+                        case ("text"):
+                            res = res + item + "<br /><input type='text' id='" + item + "'> <br /> ";
+                            break
+                        default:
+                            res = res + item + "<br /><input type='text' id='" + jdapMarkUp[object][item] + "'> <br /> ";
+                            break
+                    }
                 }
             }
         }

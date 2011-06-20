@@ -29,3 +29,7 @@
 	border-color: rgb(125, 190, 54);
 	padding: 4px 10px 4px 10px;
 }
+
+.jdapDescription {
+	font-style: italic;
+}
