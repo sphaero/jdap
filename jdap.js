@@ -4,6 +4,7 @@ postUrl = "index.php";
 weakPwMsg = "Password is not strong enough. Try a more complicated password";
 noPwMatchMsg = "Passwords do not match or none entered";
 logOutMsg = "You are logged out";
+processingMsg = "Please wait...";
 
 function jdapGetFuncName(func_string) {
     return func_string.slice(5);
@@ -196,6 +197,7 @@ function jdapPostData(msg, callback) {
     }
     //alert(out);
     jQuery.post(postUrl, msg, callback, "json");
+    jQuery('#status').html(processingMsg);
 }
 
 function jdapDecodeResult(result) {
@@ -293,6 +295,10 @@ function jdapGui() {
     //Set PostUrl
     if (jdapMarkUp.Login._PostUrl != undefined) {
         postUrl = jdapMarkUp.Login._PostUrl;
+    }
+    //Set processing msg
+    if (jdapMarkUp.Login._ProcessingMsg != undefined) {
+        processingMsg = jdapMarkUp.Login._ProcessingMsg;
     }
     //Set Pw messages
      if (jdapMarkUp.UpdatePassword._WeakPwMsg != undefined) {
