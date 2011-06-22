@@ -192,7 +192,7 @@ function jdapDecodeLoginResult(result) {
 
 function jdapPostData(msg, callback) {
     out = ""
-    for(item in msg) {
+    for(var item in msg) {
         out = out + item +" "+ msg[item]+"\n";
     }
     //alert(out);
