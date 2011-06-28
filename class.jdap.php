@@ -24,8 +24,8 @@ class jdap {
     public function doRun() {
         $result = Array();
         
-	//if no user/pass is given there is no use to continue
-	if(!(array_key_exists("Username", $this->config) && array_key_exists("Password", $this->config))) {
+        //if no user/pass is given there is no use to continue
+        if(!(array_key_exists("Username", $this->config) && array_key_exists("Password", $this->config))) {
             $result["usermsg"] = $this->msg['failedLogin'];
             $result["error"] = -1;
             $result["errmsg"] = "No username or password given";
@@ -122,7 +122,6 @@ class jdap {
         else {
             return ldap_errno($ldapcn);
         }
-	    $ldap_unbind($ldapcn);
     }
 
     private function getAttributes(&$ldapcn, $udn, $attr = array()) {
