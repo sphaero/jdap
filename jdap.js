@@ -5,6 +5,7 @@ weakPwMsg = "Password is not strong enough. Try a more complicated password";
 noPwMatchMsg = "Passwords do not match or none entered";
 logOutMsg = "You are logged out";
 processingMsg = "Please wait...";
+noCredentialsMsg = "Please enter your username and password";
 
 function jdapGetFuncName(func_string) {
     return func_string.slice(5);
@@ -21,10 +22,14 @@ function jdapRunFunction(functionName /*, args*/) {
 
 function jdapLogIn(button) {
     msg = jdapGetUserPw();
-    //we are also requesting all attributes immediatelly
-    msg['jdapLogIn'] = "";
-    msg['jdapAttributes'] = jdapGetAllLdapAttributes();
-    jdapPostData(msg, jdapDecodeLoginResult);
+    if (msg['Username'] != "" && msg['Password'] != "") {
+        //we are also requesting all attributes immediatelly
+        msg['jdapLogIn'] = "";
+        msg['jdapAttributes'] = jdapGetAllLdapAttributes();
+        jdapPostData(msg, jdapDecodeLoginResult);
+    } else {
+        jQuery('#status').html(noCredentialsMsg);
+    }
 }
 
 function jdapGetUserPw() {
@@ -295,6 +300,10 @@ function jdapGui() {
     //Set PostUrl
     if (jdapMarkUp.Login._PostUrl != undefined) {
         postUrl = jdapMarkUp.Login._PostUrl;
+    }
+    //Set noCredentialMessage
+    if (jdapMarkUp.Login._NoCredentialMessage != undefined) {
+        noCredentialMessage = jdapMarkUp.Login.__NoCredentialMessage;
     }
     //Set processing msg
     if (jdapMarkUp.Login._ProcessingMsg != undefined) {
