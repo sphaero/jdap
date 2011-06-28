@@ -30,10 +30,9 @@ class jdap {
             $result["error"] = -1;
             $result["errmsg"] = "No username or password given";
             return $result;
-	}
+        }
         // connect to ldap server
         $ldapconn = ldap_connect($this->config['host'], $this->config['port']);
-        //TODO fix this
         $ldaprdn = $this->findUser($ldapconn, $this->config["Username"]);
         if (ldap_errno($ldapconn) == 0) {
             //If ldap connection is succesful we start the action
@@ -108,7 +107,8 @@ class jdap {
         /*
         * return DN of first user found 
         */
-	$filter = "(&(objectClass=person)(".$this->config['user_attribute']."=".$user."))";
+        $filter = "(&(objectClass=person)(".$this->config['user_attribute']."=".$user."))";
+        $ldapbind = @ldap_bind($ldapconn, $this->config["searchuser"], $this->config["searchpass"]);
         $res = ldap_search($ldapcn, $this->config['basedn'], $filter, array("dn"));
         if (res) {
             $entryid = ldap_first_entry($ldapcn, $res);
@@ -118,11 +118,11 @@ class jdap {
             else {
                 return ldap_errno($ldapcn);
             }
-        }
+        } 
         else {
             return ldap_errno($ldapcn);
         }
-	$ldap_unbind($ldapcn);
+	    $ldap_unbind($ldapcn);
     }
 
     private function getAttributes(&$ldapcn, $udn, $attr = array()) {

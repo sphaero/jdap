@@ -2,6 +2,8 @@
 $jdapData['host'] = 'ldap.somedomain.com';
 $jdapData['port'] = NULL;
 $jdapData['basedn'] = 'o=org';
+$jdapData['searchuser'] = '';
+$jdapData['searchpass'] = '';
 $jdapData['user_attribute'] = "uid";
 $jdapData['password_attribute'] = 'userPassword';
 $jdapData['password_encryption'] = 'clear';
