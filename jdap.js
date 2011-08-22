@@ -266,7 +266,6 @@ function jdapGui() {
         if (jdapMarkUp[object]["_Description"] != undefined) {
              res = res + "<div class='jdapDescription'>"+ jdapMarkUp[object]["_Description"] + "</div>";
         }
-        
         //iterate on all items in the markup object
         for (var item in jdapMarkUp[object]) {
             //try to match the item to predefined strings patterns
@@ -309,12 +308,14 @@ function jdapGui() {
     if (jdapMarkUp.Login._ProcessingMsg != undefined) {
         processingMsg = jdapMarkUp.Login._ProcessingMsg;
     }
-    //Set Pw messages
-     if (jdapMarkUp.UpdatePassword._WeakPwMsg != undefined) {
-        weakPwMsg = jdapMarkUp.UpdatePassword._WeakPwMsg;
-    }
-     if (jdapMarkUp.UpdatePassword._NoPwMatchMsg != undefined) {
-        noPwMatchMsg = jdapMarkUp.UpdatePassword._NoPwMatchMsg;
+    //Set Pw messages if UpdatePassword is defined
+     if (jdapMarkUp.UpdatePassword =! undefined) {
+         if (jdapMarkUp.UpdatePassword._WeakPwMsg != undefined) {
+            weakPwMsg = jdapMarkUp.UpdatePassword._WeakPwMsg;
+        }
+        if (jdapMarkUp.UpdatePassword._NoPwMatchMsg != undefined) {
+            noPwMatchMsg = jdapMarkUp.UpdatePassword._NoPwMatchMsg;
+        }
     }
     //Set logout msg
     if (jdapMarkUp.LogOut._LogOutMsg != undefined) {

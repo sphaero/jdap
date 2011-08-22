@@ -36,14 +36,14 @@ jdapMarkUp.Contact = {
     "Emailaddress" : "mail",
     "func_jdapModifyAttributes" : "Update"
 };
-//UpdatePassword is essential
-jdapMarkUp.UpdatePassword = {
-    "New Password" : "password",
-    "New Password Again" : "password",
-    "func_jdapUpdatePassword" : "Change Password",
-    "_WeakPwMsg" : "Je wachtwoord is te eenvoudig probeer een ingewikkelder wachtwoord",
-    "_NoPwMatchMsg" : "De ingevoerde wachtwoorden komen niet overeen"
-};
+//UpdatePassword is special
+//jdapMarkUp.UpdatePassword = {
+//    "New Password" : "password",
+//    "New Password Again" : "password",
+//    "func_jdapUpdatePassword" : "Change Password",
+//    "_WeakPwMsg" : "Je wachtwoord is te eenvoudig probeer een ingewikkelder wachtwoord",
+//    "_NoPwMatchMsg" : "De ingevoerde wachtwoorden komen niet overeen"
+//};
 //LogOut is essential
 jdapMarkUp.LogOut = {
     "func_jdapLogOut" : "Click to log out",
@@ -55,7 +55,7 @@ $(document).ready(function(){
     jdapGui();
     jdapGuiControls();
     jdapGuiButtons();
-    jdapHideGui();
+    //jdapHideGui();
 });
 
 </script>
