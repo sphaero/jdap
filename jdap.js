@@ -242,6 +242,14 @@ function jdapGuiButtons() {
             });
         }
     )
+    jQuery('#jdapApp :input').each(function() {
+            jQuery(this).keypress(function(e) {
+                if(e.which == 13) {
+                    jdapLogin();
+                }
+            });
+        }
+    )
 }
 
 function jdapGuiSlide() {
