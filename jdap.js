@@ -35,7 +35,8 @@ function jdapLogIn(button) {
 function jdapGetUserPw() {
     //get username + password
     msg = {};
-    msg['Username'] = jQuery('#jdapApp #Username').val();
+    //we're splitting @ to filter out realm logins
+    msg['Username'] = jQuery('#jdapApp #Username').val().split('@')[0];
     msg['Password'] = jQuery('#jdapApp #Password').val();
     return msg
 }
